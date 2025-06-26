@@ -7,7 +7,6 @@ import { styled } from "@mui/material/styles";
 import Store from "@mui/icons-material/Store";
 import Group from "@mui/icons-material/Group";
 import AttachMoney from "@mui/icons-material/AttachMoney";
-import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import ArrowRightAlt from "@mui/icons-material/ArrowRightAlt";
 import { Small } from "app/components/Typography";
 
@@ -43,7 +42,6 @@ export default function StatCards() {
     { name: "New Leads", amount: 3050, Icon: Group },
     { name: "Ventas de la semana", amount: "$80,500", Icon: AttachMoney },
     { name: "Estado del inventario", amount: "8.5% Exceso de stock", Icon: Store },
-    { name: "Orders to deliver", amount: "305 Orders", Icon: ShoppingCart }
   ];
 
   return (

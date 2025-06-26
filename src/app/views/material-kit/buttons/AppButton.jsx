@@ -122,10 +122,6 @@ export default function AppButton() {
           <Icon>alarm</Icon>
         </IconButton>
 
-        <IconButton color="primary" className="button" aria-label="Add to shopping cart">
-          <Icon>add_shopping_cart</Icon>
-        </IconButton>
-
         <input accept="image/*" className="input" id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">
           <IconButton

@@ -12,7 +12,6 @@ import TextField from "@mui/material/TextField";
 import { styled, useTheme } from "@mui/material/styles";
 import LoadingButton from "@mui/lab/LoadingButton";
 // GLOBAL CUSTOM COMPONENTS
-import MatxLogo from "app/components/MatxLogo";
 import MatxDivider from "app/components/MatxDivider";
 import { Paragraph, Span } from "app/components/Typography";
 // GLOBAL CUSTOM HOOKS
@@ -25,13 +24,6 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#e0e0e0",
   "&:hover": { backgroundColor: "#d5d5d5" }
 }));
-
-const Logo = styled("div")({
-  gap: 10,
-  display: "flex",
-  alignItems: "center",
-  "& span": { fontSize: 26, lineHeight: 1.3, fontWeight: 800 }
-});
 
 const FirebaseRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -122,9 +114,6 @@ export default function FirebaseLogin() {
         <Grid container>
           <Grid size={{ md: 6, xs: 12 }}>
             <div className="cardLeft">
-              <Logo>
-                <MatxLogo /> <span>MatX Pro</span>
-              </Logo>
 
               <h1 className="mainTitle">Admin Dashboard</h1>
 

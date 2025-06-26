@@ -20,7 +20,7 @@ export default function AppInventory() {
         <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} />
       </Box>
 
-      <SimpleCard title="Inventario de Productos ">
+      <SimpleCard title="Inventario de Productos por tienda ">
         <InventoryTable />
       </SimpleCard>
     </Container>

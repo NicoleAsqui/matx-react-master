@@ -1,9 +1,8 @@
 import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import { ThemeProvider, styled, useTheme } from "@mui/material/styles";
 
-import { Paragraph, Span } from "./Typography";
+import { Span } from "./Typography";
 import useSettings from "app/hooks/useSettings";
 import { topBarHeight } from "app/utils/constant";
 
@@ -44,17 +43,7 @@ export default function Footer() {
       <AppBar color="primary" position="static" sx={{ zIndex: 96 }}>
         <AppFooter>
           <FooterContent>
-            <a href="https://ui-lib.com/downloads/matx-pro-react-admin/">
-              <Button variant="contained" color="secondary">
-                Get MatX Pro
-              </Button>
-            </a>
-
             <Span m="auto" />
-
-            <Paragraph m={0}>
-              Design and Developed by <a href="http://ui-lib.com">UI Lib</a>
-            </Paragraph>
           </FooterContent>
         </AppFooter>
       </AppBar>

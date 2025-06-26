@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import styled from "@mui/material/styles/styled";
 
 import { Span } from "./Typography";
-import { MatxLogo } from "app/components";
 import useSettings from "app/hooks/useSettings";
 
 // STYLED COMPONENTS
@@ -19,7 +18,7 @@ const StyledSpan = styled(Span)(({ mode }) => ({
   display: mode === "compact" ? "none" : "block"
 }));
 
-export default function Brand({ children }) {
+export default function Brand() {
   const { settings } = useSettings();
   const leftSidebar = settings.layout1Settings.leftSidebar;
   const { mode } = leftSidebar;
@@ -27,14 +26,9 @@ export default function Brand({ children }) {
   return (
     <BrandRoot>
       <Box display="flex" alignItems="center">
-        <MatxLogo />
         <StyledSpan mode={mode} className="sidenavHoverShow">
-          Matx
+          QuickLook
         </StyledSpan>
-      </Box>
-
-      <Box className="sidenavHoverShow" sx={{ display: mode === "compact" ? "none" : "block" }}>
-        {children || null}
       </Box>
     </BrandRoot>
   );

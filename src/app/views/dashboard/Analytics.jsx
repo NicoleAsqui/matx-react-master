@@ -8,7 +8,6 @@ import StatCards from "./shared/StatCards";
 import Campaigns from "./shared/Campaigns";
 import StatCards2 from "./shared/StatCards2";
 import DoughnutChart from "./shared/Doughnut";
-import UpgradeCard from "./shared/UpgradeCard";
 import TopSellingTable from "./shared/TopSellingTable";
 
 // STYLED COMPONENTS
@@ -64,7 +63,6 @@ export default function Analytics() {
               />
             </Card>
 
-            <UpgradeCard />
             <Campaigns />
           </Grid>
         </Grid>

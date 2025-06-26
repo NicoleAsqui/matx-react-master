@@ -18,8 +18,7 @@ export default function AppAlerts() {
       <Box className="breadcrumb">
         <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} />
       </Box>
-
-      <SimpleCard title="Historial de alertas">
+      <SimpleCard >
         <AlertsTable />
       </SimpleCard>
     </Container>

@@ -4,7 +4,6 @@ import Comment from "@mui/icons-material/Comment";
 
 import { Chatbox, ChatHead } from "app/components";
 import { Span } from "../Typography";
-import ShoppingCart from "../ShoppingCart";
 import MatxCustomizer from "../MatxCustomizer/MatxCustomizer";
 
 // STYLED COMPONENTS
@@ -45,7 +44,6 @@ export default function SecondarySidebarContent() {
     <SidebarRoot width={"50px"} className="secondary-sidebar">
       <Span m="auto" />
       <MatxCustomizer />
-      <ShoppingCart />
 
       <ChatHead
         icon={
