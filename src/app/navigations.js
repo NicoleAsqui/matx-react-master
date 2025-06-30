@@ -1,5 +1,4 @@
 const navigations = [
-  { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
   { name: "Inventario", path: "/inventory", icon: "dashboard" },
   { name: "Movimientos", path: "/movements", icon: "dashboard" },
   { name: "Alertas", path: "/alerts", icon: "dashboard" },

@@ -1,9 +1,7 @@
 import { Box, styled } from "@mui/material";
-import InventoryTable from "./Inventory";
+import InventoryTable from "../../components/inventory/InventoryTable";
 import { Breadcrumb, SimpleCard } from "app/components";
 
-
-// STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",
   [theme.breakpoints.down("sm")]: { margin: "16px" },
@@ -13,16 +11,21 @@ const Container = styled("div")(({ theme }) => ({
   }
 }));
 
-export default function AppInventory() {
+const AppInventory = () => {
   return (
     <Container>
       <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} />
+        <Breadcrumb routeSegments={[
+          { name: "Inventario", path: "/inventory" }, 
+          { name: "Gestión" }
+        ]} />
       </Box>
 
-      <SimpleCard title="Inventario de Productos por tienda ">
+      <SimpleCard title="Inventario de Productos">
         <InventoryTable />
       </SimpleCard>
     </Container>
   );
-}
+};
+
+export default AppInventory;

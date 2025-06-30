@@ -16,7 +16,10 @@ export default function AppMovements() {
   return (
     <Container>
       <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} />
+        <Breadcrumb routeSegments={[
+          { name: "Movimientos", path: "/movements" }, 
+          { name: "Gestión" }
+        ]} />
       </Box>
 
       <SimpleCard title="Historial de movimientos">

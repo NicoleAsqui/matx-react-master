@@ -1,4 +1,5 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -19,22 +20,23 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Typography
+  Typography,
+  CircularProgress,
+  Alert
 } from "@mui/material";
 import { styled } from "@mui/system";
 import {
+  Add, Edit, Delete,
   FilterList as FilterListIcon,
   Close as CloseIcon,
   Search as SearchIcon,
-  Visibility as VisibilityIcon,
   Receipt as ReceiptIcon,
   LocalOffer as PromotionIcon,
   Block as BlockIcon,
   Autorenew as ReturnIcon,
   Cake as TastingIcon
 } from "@mui/icons-material";
-
-import { movementsData } from "app/mockData/movements";
+import movementsService from '../../services/movementsService';
 
 // STYLED COMPONENTS
 const ContentBox = styled("div")(({ theme }) => ({
@@ -49,15 +51,6 @@ const StyledTable = styled(Table)(() => ({
   },
   "& tbody": {
     "& tr": { "& td": { paddingLeft: 0 } }
-  }
-}));
-
-const SearchContainer = styled("div")(({ theme }) => ({
-  marginBottom: "1rem",
-  display: "flex",
-  justifyContent: "flex-end",
-  [theme.breakpoints.down("sm")]: {
-    justifyContent: "flex-start"
   }
 }));
 
@@ -106,6 +99,11 @@ const CategoryIcon = ({ category }) => {
 };
 
 export default function MovementsTable() {
+  // Estados para los datos
+  const [movements, setMovements] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   // Estados para paginación
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -122,13 +120,34 @@ export default function MovementsTable() {
     fechaHasta: ""
   });
 
-  // Datos únicos para filtros
-  const tiposUnicos = [...new Set(movementsData.map(item => item.tipo))];
-  const categoriasUnicas = [...new Set(movementsData.map(item => item.categoria))];
-  const puntosVentaUnicos = [...new Set(movementsData.map(item => item.punto_venta))];
-  const responsablesUnicos = [...new Set(movementsData.map(item => item.responsable))];
+  
+  const navigate = useNavigate();
+  const fetchMovements = async () => {
+      try {
+        setLoading(true);
+        const data = await movementsService.getAll();
+        setMovements(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching movements:", err);
+        setError("Error al cargar los movimientos. Por favor intente nuevamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Manejar cambios en filtros
+  // Obtener datos al montar el componente
+  useEffect(() => {
+    fetchMovements();
+  }, []);
+
+  // Datos únicos para filtros (calculados de los datos reales)
+  const tiposUnicos = [...new Set(movements.map(item => item.tipo))];
+  const categoriasUnicas = [...new Set(movements.map(item => item.categoria))];
+  const puntosVentaUnicos = [...new Set(movements.map(item => item.punto_venta))];
+  const responsablesUnicos = [...new Set(movements.map(item => item.responsable))];
+
+  // Manejar cambios en filtros (igual que antes)
   const handleFilterChange = (filterName, value) => {
     setFilters(prev => ({
       ...prev,
@@ -136,8 +155,8 @@ export default function MovementsTable() {
     }));
   };
 
-  // Aplicar filtros
-  const filteredData = movementsData.filter(movement => {
+  // Aplicar filtros a los datos
+  const filteredData = movements.filter(movement => {
     // Filtro por texto de búsqueda
     const matchesSearch = searchText === "" || 
       Object.values(movement).some(
@@ -201,6 +220,42 @@ export default function MovementsTable() {
 
   const categoryTotals = calculateTotalsByCategory();
 
+  
+  // Navegación para editar
+  const handleEdit = (id) => {
+    navigate(`/movements/edit/${id}`);
+  };
+
+  // Eliminar movimiento
+  const handleDelete = async (id) => {
+    if (window.confirm('¿Estás seguro de eliminar este movimiento?')) {
+      try {
+        await movementsService.delete(id);
+        fetchMovements();
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
+    }
+  };
+
+  // Mostrar estado de carga
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="300px">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Mostrar error si ocurre
+  if (error) {
+    return (
+      <Box m={3}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
+
   return (
     <Fragment>
       <ContentBox className="movements-history">
@@ -245,48 +300,57 @@ export default function MovementsTable() {
             )}
 
             {/* Barra de búsqueda y filtros */}
-            <SearchContainer>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Buscar movimiento..."
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: searchText && (
-                    <InputAdornment position="end">
-                      <IconButton 
-                        size="small" 
-                        onClick={() => setSearchText("")}
-                      >
-                        <CloseIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-                sx={{ width: { xs: "100%", sm: "300px" } }}
-              />
+            <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2} mb={3}>
+              <Box flexGrow={1} minWidth={{ xs: '100%', sm: 'auto' }} maxWidth={{ sm: 300 }}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  placeholder="Buscar movimiento..."
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: searchText && (
+                      <InputAdornment position="end">
+                        <IconButton size="small" onClick={() => setSearchText("")}>
+                          <CloseIcon fontSize="small" />
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                  fullWidth
+                />
+              </Box>
 
-              <FilterButton
-                startIcon={<FilterListIcon />}
-                onClick={() => setFilterModalOpen(true)}
-              >
-                Filtrar
-                {Object.values(filters).some(f => 
-                  (Array.isArray(f) && f.length > 0) || 
-                  (typeof f === 'string' && f)
-                ) && (
-                  <span style={{ marginLeft: 8, fontWeight: 'bold' }}>
-                    •
-                  </span>
-                )}
-              </FilterButton>
-            </SearchContainer>
+              <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+                <FilterButton
+                  startIcon={<FilterListIcon />}
+                  onClick={() => setFilterModalOpen(true)}
+                >
+                  Filtrar
+                  {Object.values(filters).some(f =>
+                    (Array.isArray(f) && f.length > 0) ||
+                    (typeof f === 'string' && f)
+                  ) && (
+                    <span style={{ marginLeft: 8, fontWeight: 'bold' }}>
+                      •
+                    </span>
+                  )}
+                </FilterButton>
+
+                <Button
+                  variant="contained"
+                  startIcon={<Add />}
+                  onClick={() => navigate('/movements/new')}
+                >
+                  Nuevo Movimiento
+                </Button>
+              </Box>
+            </Box>
 
             {/* Mostrar filtros activos */}
             <Box sx={{ mb: 2 }}>
@@ -352,74 +416,86 @@ export default function MovementsTable() {
                 </TableHead>
 
                 <TableBody>
-                  {filteredData
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((movement, index) => (
-                      <TableRow key={index}>
-                        <TableCell align="left">{movement.fecha}</TableCell>
-                        <TableCell align="center">
-                          <MovementTypeBadge type={movement.tipo}>
-                            {movement.tipo === "ingreso" ? "Ingreso" : "Egreso"}
-                          </MovementTypeBadge>
-                        </TableCell>
-                        <TableCell align="center">{movement.producto}</TableCell>
-                        <TableCell align="center">
-                          <Box display="flex" alignItems="center" justifyContent="center">
-                            <CategoryIcon category={movement.categoria} />
-                            {movement.categoria}
-                          </Box>
-                        </TableCell>
-                        <TableCell align="center">{movement.cantidad}</TableCell>
-                        <TableCell align="center">
-                          ${movement.costo_unitario.toFixed(2)}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Typography 
-                            variant="body1" 
-                            color={movement.tipo === "egreso" ? "error.main" : "success.main"}
-                            fontWeight="500"
-                          >
-                            ${movement.costo_total.toFixed(2)}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="center">
-                          {movement.punto_venta}
-                        </TableCell>
-                        <TableCell align="center">
-                          {movement.responsable}
-                        </TableCell>
-                        <TableCell align="right">
-                          <IconButton title="Ver detalles">
-                            <VisibilityIcon color="info" />
-                          </IconButton>
-                          <IconButton title="Descargar comprobante">
-                            <ReceiptIcon color="action" />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                  {filteredData.length > 0 ? (
+                    filteredData
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((movement, index) => (
+                        <TableRow key={index}>
+                          <TableCell align="left">{movement.fecha}</TableCell>
+                          <TableCell align="center">
+                            <MovementTypeBadge type={movement.tipo}>
+                              {movement.tipo === "ingreso" ? "Ingreso" : "Egreso"}
+                            </MovementTypeBadge>
+                          </TableCell>
+                          <TableCell align="center">{movement.producto}</TableCell>
+                          <TableCell align="center">
+                            <Box display="flex" alignItems="center" justifyContent="center">
+                              <CategoryIcon category={movement.categoria} />
+                              {movement.categoria}
+                            </Box>
+                          </TableCell>
+                          <TableCell align="center">{movement.cantidad}</TableCell>
+                          <TableCell align="center">
+                            ${Number(movement.costo_unitario).toFixed(2)}
+                          </TableCell>
+                          <TableCell align="center">
+                            <Typography 
+                              variant="body1" 
+                              color={movement.tipo === "egreso" ? "error.main" : "success.main"}
+                              fontWeight="500"
+                            >
+                              ${Number(movement.costo_total).toFixed(2)}
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="center">
+                            {movement.punto_venta}
+                          </TableCell>
+                          <TableCell align="center">
+                            {movement.responsable}
+                          </TableCell>
+                          <TableCell>
+                            <IconButton onClick={() => handleEdit(movement.id)}>
+                              <Edit color="primary" />
+                            </IconButton>
+                            <IconButton onClick={() => handleDelete(movement.id)}>
+                              <Delete color="error" />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={10} align="center">
+                        <Typography color="textSecondary">
+                          No se encontraron movimientos
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </StyledTable>
 
-              <TablePagination
-                sx={{ px: 2 }}
-                page={page}
-                component="div"
-                rowsPerPage={rowsPerPage}
-                count={filteredData.length}
-                onPageChange={(_, newPage) => setPage(newPage)}
-                onRowsPerPageChange={(e) => {
-                  setRowsPerPage(+e.target.value);
-                  setPage(0);
-                }}
-                rowsPerPageOptions={[5, 10, 25]}
-              />
+              {filteredData.length > 0 && (
+                <TablePagination
+                  sx={{ px: 2 }}
+                  page={page}
+                  component="div"
+                  rowsPerPage={rowsPerPage}
+                  count={filteredData.length}
+                  onPageChange={(_, newPage) => setPage(newPage)}
+                  onRowsPerPageChange={(e) => {
+                    setRowsPerPage(+e.target.value);
+                    setPage(0);
+                  }}
+                  rowsPerPageOptions={[5, 10, 25]}
+                />
+              )}
             </Box>
           </Grid>
         </Grid>
       </ContentBox>
 
-      {/* Modal de Filtros */}
+      {/* Modal de Filtros (se mantiene igual) */}
       <Dialog 
         open={filterModalOpen} 
         onClose={() => setFilterModalOpen(false)}

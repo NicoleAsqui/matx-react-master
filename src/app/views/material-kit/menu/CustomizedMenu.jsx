@@ -47,7 +47,6 @@ function CustomizedMenu() {
         anchorEl={anchorEl}
         onClose={handleClose}
         open={Boolean(anchorEl)}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ border: "1px solid #d3d4d5" }}>
