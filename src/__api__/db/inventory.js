@@ -1,5 +1,6 @@
 import Mock from "../mock";
 import { nanoid } from "nanoid";
+import { API_BASE_URL } from "../../app/config";
 
 let mockInventory = [
   {
@@ -26,22 +27,25 @@ let mockInventory = [
     stock_minimo: 10,
     caducidad: "2025-09-15",
     lote: "CE-20250602",
-    punto_venta:  "Gasolinera Durán"
+    punto_venta: "Gasolinera Durán",
   },
 ];
 
+// Normalizamos la URL base sin slash final
+const baseUrl = API_BASE_URL.replace(/\/$/, "") + "/inventario";
+
 // GET all
-Mock.onGet("https://tu-api.com/inventario").reply(200, mockInventory);
+Mock.onGet(baseUrl).reply(200, mockInventory);
 
 // GET by ID
-Mock.onGet(new RegExp("https://tu-api.com/inventario/.+")).reply(config => {
+Mock.onGet(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const item = mockInventory.find(p => p.id === id);
   return item ? [200, item] : [404, { message: "Producto no encontrado" }];
 });
 
 // POST create
-Mock.onPost("https://tu-api.com/inventario").reply(config => {
+Mock.onPost(baseUrl).reply(config => {
   const newItem = JSON.parse(config.data);
   newItem.id = nanoid();
   mockInventory.push(newItem);
@@ -49,7 +53,7 @@ Mock.onPost("https://tu-api.com/inventario").reply(config => {
 });
 
 // PUT update
-Mock.onPut(new RegExp("https://tu-api.com/inventario/.+")).reply(config => {
+Mock.onPut(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const index = mockInventory.findIndex(p => p.id === id);
   if (index === -1) return [404, { message: "No encontrado" }];
@@ -59,7 +63,7 @@ Mock.onPut(new RegExp("https://tu-api.com/inventario/.+")).reply(config => {
 });
 
 // DELETE
-Mock.onDelete(new RegExp("https://tu-api.com/inventario/.+")).reply(config => {
+Mock.onDelete(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const index = mockInventory.findIndex(p => p.id === id);
   if (index === -1) return [404, { message: "No encontrado" }];

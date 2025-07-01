@@ -13,3 +13,5 @@ export const auth0Config = {
   client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
   domain: import.meta.env.VITE_AUTH0_DOMAIN
 };
+
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";

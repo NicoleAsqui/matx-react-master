@@ -1,21 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
+import { API_BASE_URL } from "../app/config";
 
-const API_URL = 'http://localhost:8080/api/alerts';
+const ALERTS_URL = `${API_BASE_URL}/api/alerts`;
 
 const alertsService = {
   getAll: async () => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(ALERTS_URL);
       return response.data;
     } catch (error) {
-      console.error('Error fetching alerts:', error);
+      console.error("Error fetching alerts:", error);
       throw error;
     }
   },
 
   getById: async (id) => {
     try {
-      const response = await axios.get(`${API_URL}/${id}`);
+      const response = await axios.get(`${ALERTS_URL}/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching alert ${id}:`, error);
@@ -25,17 +26,17 @@ const alertsService = {
 
   create: async (alertData) => {
     try {
-      const response = await axios.post(API_URL, alertData);
+      const response = await axios.post(ALERTS_URL, alertData);
       return response.data;
     } catch (error) {
-      console.error('Error creating alert:', error);
+      console.error("Error creating alert:", error);
       throw error;
     }
   },
 
   update: async (id, alertData) => {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, alertData);
+      const response = await axios.put(`${ALERTS_URL}/${id}`, alertData);
       return response.data;
     } catch (error) {
       console.error(`Error updating alert ${id}:`, error);
@@ -45,7 +46,7 @@ const alertsService = {
 
   delete: async (id) => {
     try {
-      const response = await axios.delete(`${API_URL}/${id}`);
+      const response = await axios.delete(`${ALERTS_URL}/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Error deleting alert ${id}:`, error);
@@ -55,7 +56,7 @@ const alertsService = {
 
   markAsRead: async (id) => {
     try {
-      const response = await axios.patch(`${API_URL}/${id}/read`);
+      const response = await axios.patch(`${ALERTS_URL}/${id}/read`);
       return response.data;
     } catch (error) {
       console.error(`Error marking alert ${id} as read:`, error);
@@ -65,33 +66,33 @@ const alertsService = {
 
   markAllAsRead: async () => {
     try {
-      const response = await axios.patch(`${API_URL}/read-all`);
+      const response = await axios.patch(`${ALERTS_URL}/read-all`);
       return response.data;
     } catch (error) {
-      console.error('Error marking all alerts as read:', error);
+      console.error("Error marking all alerts as read:", error);
       throw error;
     }
   },
 
   getFilterOptions: async () => {
     try {
-      const response = await axios.get(`${API_URL}/filter-options`);
+      const response = await axios.get(`${ALERTS_URL}/filter-options`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching filter options:', error);
+      console.error("Error fetching filter options:", error);
       throw error;
     }
   },
 
   getByType: async (type) => {
     try {
-      const response = await axios.get(`${API_URL}?type=${type}`);
+      const response = await axios.get(`${ALERTS_URL}?type=${type}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching alerts by type ${type}:`, error);
       throw error;
     }
-  }
+  },
 };
 
 export default alertsService;

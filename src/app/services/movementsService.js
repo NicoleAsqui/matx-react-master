@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
+import { API_BASE_URL } from "../app/config";
 
-const API_URL = 'http://localhost:8080/api/movements';
+const API_URL = `${API_BASE_URL}/api/movements`;
 
 const movementsService = {
   getAll: async () => {
@@ -8,7 +9,7 @@ const movementsService = {
       const response = await axios.get(API_URL);
       return response.data;
     } catch (error) {
-      console.error('Error fetching movements:', error);
+      console.error("Error fetching movements:", error);
       throw error;
     }
   },
@@ -28,7 +29,7 @@ const movementsService = {
       const response = await axios.post(API_URL, movementData);
       return response.data;
     } catch (error) {
-      console.error('Error creating movement:', error);
+      console.error("Error creating movement:", error);
       throw error;
     }
   },

@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
+import { API_BASE_URL } from "../app/config";
 
-const API_URL = 'http://localhost:8080/api/inventory';
+const API_URL = `${API_BASE_URL}/api/inventory`;
 
 const inventoryService = {
   getAll: async () => {
@@ -8,7 +9,7 @@ const inventoryService = {
       const response = await axios.get(API_URL);
       return response.data;
     } catch (error) {
-      console.error('Error fetching inventory:', error);
+      console.error("Error fetching inventory:", error);
       throw error;
     }
   },
@@ -28,7 +29,7 @@ const inventoryService = {
       const response = await axios.post(API_URL, productData);
       return response.data;
     } catch (error) {
-      console.error('Error creating product:', error);
+      console.error("Error creating product:", error);
       throw error;
     }
   },
@@ -58,10 +59,10 @@ const inventoryService = {
       const response = await axios.get(`${API_URL}/filter-options`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching filter options:', error);
+      console.error("Error fetching filter options:", error);
       throw error;
     }
-  }
+  },
 };
 
 export default inventoryService;

@@ -12,7 +12,6 @@ import {
   TablePagination,
   IconButton,
   styled,
-  Paper,
   TextField,
   InputAdornment
 } from '@mui/material';

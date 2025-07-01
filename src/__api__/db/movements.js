@@ -1,5 +1,6 @@
 import Mock from "../mock";
 import { nanoid } from "nanoid";
+import { API_BASE_URL } from "../../app/config";
 
 let mockMovements = [
   {
@@ -79,18 +80,21 @@ let mockMovements = [
   }
 ];
 
+// Normalizamos la URL base sin slash final
+const baseUrl = API_BASE_URL.replace(/\/$/, "") + "/movimientos";
+
 // GET all movements
-Mock.onGet("https://tu-api.com/movimientos").reply(200, mockMovements);
+Mock.onGet(baseUrl).reply(200, mockMovements);
 
 // GET movement by ID
-Mock.onGet(new RegExp("https://tu-api.com/movimientos/.+")).reply(config => {
+Mock.onGet(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const movement = mockMovements.find(m => m.id === id);
   return movement ? [200, movement] : [404, { message: "Movimiento no encontrado" }];
 });
 
 // POST create movement
-Mock.onPost("https://tu-api.com/movimientos").reply(config => {
+Mock.onPost(baseUrl).reply(config => {
   const newMovement = JSON.parse(config.data);
   newMovement.id = `M-${nanoid(4)}`;
   newMovement.costo_total = newMovement.cantidad * newMovement.costo_unitario;
@@ -99,21 +103,22 @@ Mock.onPost("https://tu-api.com/movimientos").reply(config => {
 });
 
 // PUT update movement
-Mock.onPut(new RegExp("https://tu-api.com/movimientos/.+")).reply(config => {
+Mock.onPut(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const index = mockMovements.findIndex(m => m.id === id);
   if (index === -1) return [404, { message: "Movimiento no encontrado" }];
+  const updatedData = JSON.parse(config.data);
   const updatedMovement = { 
     ...mockMovements[index], 
-    ...JSON.parse(config.data),
-    costo_total: JSON.parse(config.data).cantidad * JSON.parse(config.data).costo_unitario
+    ...updatedData,
+    costo_total: updatedData.cantidad * updatedData.costo_unitario
   };
   mockMovements[index] = updatedMovement;
   return [200, updatedMovement];
 });
 
 // DELETE movement
-Mock.onDelete(new RegExp("https://tu-api.com/movimientos/.+")).reply(config => {
+Mock.onDelete(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const index = mockMovements.findIndex(m => m.id === id);
   if (index === -1) return [404, { message: "Movimiento no encontrado" }];
@@ -122,14 +127,14 @@ Mock.onDelete(new RegExp("https://tu-api.com/movimientos/.+")).reply(config => {
 });
 
 // GET movements by type (ingreso/egreso)
-Mock.onGet(/https:\/\/tu-api\.com\/movimientos\/filter\?tipo=.+/).reply(config => {
+Mock.onGet(new RegExp(`${baseUrl}/filter\\?tipo=.+`)).reply(config => {
   const type = new URL(config.url).searchParams.get("tipo");
   const filtered = mockMovements.filter(m => m.tipo === type);
   return [200, filtered];
 });
 
 // GET movements by category
-Mock.onGet(/https:\/\/tu-api\.com\/movimientos\/filter\?categoria=.+/).reply(config => {
+Mock.onGet(new RegExp(`${baseUrl}/filter\\?categoria=.+`)).reply(config => {
   const category = new URL(config.url).searchParams.get("categoria");
   const filtered = mockMovements.filter(m => m.categoria === category);
   return [200, filtered];

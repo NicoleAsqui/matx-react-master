@@ -1,5 +1,6 @@
 import Mock from "../mock";
 import { nanoid } from "nanoid";
+import { API_BASE_URL } from "../../app/config";
 
 const generateAlerts = () => {
   const stores = ["Metrópolis", "Centro", "Norte", "Sur"];
@@ -62,26 +63,25 @@ const generateAlerts = () => {
 
 let mockAlerts = generateAlerts();
 
-// GET all alerts
-Mock.onGet("https://tu-api.com/alertas").reply(200, mockAlerts);
+// Usamos API_BASE_URL en todos los endpoints para centralizar
+const baseUrl = API_BASE_URL.replace(/\/$/, ""); // elimina posible slash al final
 
-// GET alert by ID
-Mock.onGet(new RegExp("https://tu-api.com/alertas/.+")).reply(config => {
+Mock.onGet(`${baseUrl}`).reply(200, mockAlerts);
+
+Mock.onGet(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const alert = mockAlerts.find(a => a.id === id);
   return alert ? [200, alert] : [404, { message: "Alerta no encontrada" }];
 });
 
-// POST create alert
-Mock.onPost("https://tu-api.com/alertas").reply(config => {
+Mock.onPost(`${baseUrl}`).reply(config => {
   const newAlert = JSON.parse(config.data);
   newAlert.id = `alert-${nanoid()}`;
-  mockAlerts.unshift(newAlert); // Add to beginning
+  mockAlerts.unshift(newAlert);
   return [201, newAlert];
 });
 
-// PUT update alert
-Mock.onPut(new RegExp("https://tu-api.com/alertas/.+")).reply(config => {
+Mock.onPut(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const index = mockAlerts.findIndex(a => a.id === id);
   if (index === -1) return [404, { message: "Alerta no encontrada" }];
@@ -90,8 +90,7 @@ Mock.onPut(new RegExp("https://tu-api.com/alertas/.+")).reply(config => {
   return [200, updatedAlert];
 });
 
-// DELETE alert
-Mock.onDelete(new RegExp("https://tu-api.com/alertas/.+")).reply(config => {
+Mock.onDelete(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const id = config.url.split("/").pop();
   const index = mockAlerts.findIndex(a => a.id === id);
   if (index === -1) return [404, { message: "Alerta no encontrada" }];
@@ -99,23 +98,20 @@ Mock.onDelete(new RegExp("https://tu-api.com/alertas/.+")).reply(config => {
   return [204];
 });
 
-// PATCH mark as read
-Mock.onPatch(new RegExp("https://tu-api.com/alertas/.+/read")).reply(config => {
-  const id = config.url.split("/")[3];
+Mock.onPatch(new RegExp(`${baseUrl}/.+/read`)).reply(config => {
+  const id = config.url.split("/").pop();
   const index = mockAlerts.findIndex(a => a.id === id);
   if (index === -1) return [404, { message: "Alerta no encontrada" }];
   mockAlerts[index].leida = true;
   return [200, mockAlerts[index]];
 });
 
-// PATCH mark all as read
-Mock.onPatch("https://tu-api.com/alertas/read-all").reply(() => {
+Mock.onPatch(`${baseUrl}/read-all`).reply(() => {
   mockAlerts = mockAlerts.map(alert => ({ ...alert, leida: true }));
   return [200, { success: true }];
 });
 
-// GET filter options
-Mock.onGet("https://tu-api.com/alertas/filter-options").reply(200, {
+Mock.onGet(`${baseUrl}/filter-options`).reply(200, {
   types: ["caducidad", "stock"],
   severities: ["alta", "media", "baja"],
   stores: ["Metrópolis", "Centro", "Norte", "Sur"],
@@ -129,9 +125,9 @@ Mock.onGet("https://tu-api.com/alertas/filter-options").reply(200, {
   ]
 });
 
-// GET by type
-Mock.onGet(/https:\/\/tu-api\.com\/alertas\?type=.+/).reply(config => {
-  const type = new URL(config.url).searchParams.get("type");
+Mock.onGet(new RegExp(`${baseUrl}\\?type=.+`)).reply(config => {
+  const url = new URL(config.url);
+  const type = url.searchParams.get("type");
   const filtered = mockAlerts.filter(a => a.tipo === type);
   return [200, filtered];
 });
