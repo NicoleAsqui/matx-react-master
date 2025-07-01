@@ -16,13 +16,13 @@ const ProductForm = ({ product, onSubmit, onCancel, isEditing }) => {
     nombre: '',
     categoria: '',
     marca: '',
-    precio_compra: 0,
-    precio_venta: 0,
-    stock_total: 0,
-    stock_minimo: 0,
+    precioCompra: 0,
+    precioVenta: 0,
+    stockTotal: 0,
+    stockMinimo: 0,
     caducidad: '',
     lote: '',
-    punto_venta: '',
+    puntoVenta: '',
     ...product
   });
 
@@ -90,9 +90,9 @@ const ProductForm = ({ product, onSubmit, onCancel, isEditing }) => {
           <TextField
             fullWidth
             label="Precio de Compra"
-            name="precio_compra"
+            name="precioCompra"
             type="number"
-            value={formData.precio_compra}
+            value={formData.precioCompra}
             onChange={handleChange}
             required
             inputProps={{ min: 0, step: 0.01 }}
@@ -102,9 +102,9 @@ const ProductForm = ({ product, onSubmit, onCancel, isEditing }) => {
           <TextField
             fullWidth
             label="Precio de Venta"
-            name="precio_venta"
+            name="precioVenta"
             type="number"
-            value={formData.precio_venta}
+            value={formData.precioVenta}
             onChange={handleChange}
             required
             inputProps={{ min: 0, step: 0.01 }}
@@ -114,9 +114,9 @@ const ProductForm = ({ product, onSubmit, onCancel, isEditing }) => {
           <TextField
             fullWidth
             label="Stock Total"
-            name="stock_total"
+            name="stockTotal"
             type="number"
-            value={formData.stock_total}
+            value={formData.stockTotal}
             onChange={handleChange}
             required
             inputProps={{ min: 0 }}
@@ -126,9 +126,9 @@ const ProductForm = ({ product, onSubmit, onCancel, isEditing }) => {
           <TextField
             fullWidth
             label="Stock Mínimo"
-            name="stock_minimo"
+            name="stockMinimo"
             type="number"
-            value={formData.stock_minimo}
+            value={formData.stockMinimo}
             onChange={handleChange}
             required
             inputProps={{ min: 0 }}
@@ -158,8 +158,8 @@ const ProductForm = ({ product, onSubmit, onCancel, isEditing }) => {
           <TextField
             fullWidth
             label="Punto de Venta"
-            name="punto_venta"
-            value={formData.punto_venta}
+            name="puntoVenta"
+            value={formData.puntoVenta}
             onChange={handleChange}
           />
         </Grid>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://tu-api.com/movimientos';
+const API_URL = 'http://localhost:8080/api/movements';
 
 const movementsService = {
   getAll: async () => {

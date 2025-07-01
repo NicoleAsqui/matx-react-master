@@ -193,14 +193,14 @@ const InventoryTable = () => {
                   <TableCell>{item.nombre}</TableCell>
                   <TableCell>{item.categoria}</TableCell>
                   <TableCell>{item.marca}</TableCell>
-                  <TableCell>${Number(item.precio_venta).toFixed(2)}</TableCell>
+                  <TableCell>${Number(item.precioVenta).toFixed(2)}</TableCell>
                   <TableCell sx={{ 
-                    color: item.stock_total <= item.stock_minimo ? 'error.main' : 'inherit',
-                    fontWeight: item.stock_total <= item.stock_minimo ? 'bold' : 'normal'
+                    color: item.stockTotal <= item.stockMinimo ? 'error.main' : 'inherit',
+                    fontWeight: item.stockTotal <= item.stockMinimo ? 'bold' : 'normal'
                   }}>
-                    {item.stock_total}/{item.stock_minimo}
+                    {item.stockTotal}/{item.stockMinimo}
                   </TableCell>
-                  <TableCell>{item.punto_venta}</TableCell>
+                  <TableCell>{item.puntoVenta}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEdit(item.id)}>
                       <Edit color="primary" />
