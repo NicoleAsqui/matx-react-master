@@ -1,6 +1,6 @@
 import Mock from "../mock";
 import { nanoid } from "nanoid";
-import { API_BASE_URL } from "../../app/config";
+import { API_BASE_URL } from "app/config";
 
 let mockInventory = [
   {

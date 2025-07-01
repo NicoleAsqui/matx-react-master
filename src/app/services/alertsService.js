@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../app/config";
+import { API_BASE_URL } from "app/config";
 
 const ALERTS_URL = `${API_BASE_URL}/api/alerts`;
 
