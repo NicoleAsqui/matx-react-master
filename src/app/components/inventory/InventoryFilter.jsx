@@ -17,8 +17,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 
 const InventoryFilter = ({ 
-  filterOptions = { categorias: [], marcas: [], puntos_venta: [] }, 
-  filters = { categorias: [], marcas: [], puntos_venta: [], conStockBajo: false }, 
+  filterOptions = { categorias: [], marcas: [], puntosVenta: [] }, 
+  filters = { categorias: [], marcas: [], puntosVenta: [], conStockBajo: false }, 
   onFilterChange, 
   onClearFilters 
 }) => {
@@ -34,7 +34,7 @@ const InventoryFilter = ({
   const hasActiveFilters = 
     filters.categorias.length > 0 || 
     filters.marcas.length > 0 || 
-    filters.puntos_venta.length > 0 || 
+    filters.puntosVenta.length > 0 || 
     filters.conStockBajo;
 
   return (
@@ -129,8 +129,8 @@ const InventoryFilter = ({
               label="Puntos de Venta"
               SelectProps={{
                 multiple: true,
-                value: filters.puntos_venta,
-                onChange: (e) => onFilterChange('puntos_venta', e.target.value),
+                value: filters.puntosVenta,
+                onChange: (e) => onFilterChange('puntosVenta', e.target.value),
                 renderValue: (selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -140,9 +140,9 @@ const InventoryFilter = ({
                 )
               }}
             >
-              {filterOptions.puntos_venta.map(punto => (
+              {filterOptions.puntosVenta.map(punto => (
                 <MenuItem key={punto} value={punto}>
-                  <Checkbox checked={filters.puntos_venta.includes(punto)} />
+                  <Checkbox checked={filters.puntosVenta.includes(punto)} />
                   {punto}
                 </MenuItem>
               ))}
@@ -185,11 +185,11 @@ const InventoryFilter = ({
               onDelete={() => onFilterChange('marcas', filters.marcas.filter(m => m !== marca))}
             />
           ))}
-          {filters.puntos_venta.map(punto => (
+          {filters.puntosVenta.map(punto => (
             <Chip
               key={punto}
               label={`Punto: ${punto}`}
-              onDelete={() => onFilterChange('puntos_venta', filters.puntos_venta.filter(p => p !== punto))}
+              onDelete={() => onFilterChange('puntosVenta', filters.puntosVenta.filter(p => p !== punto))}
             />
           ))}
           {filters.conStockBajo && (

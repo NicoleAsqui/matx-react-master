@@ -10,13 +10,13 @@ let mockMovements = [
     tipo: "egreso",
     categoria: "degustacion",
     cantidad: 5,
-    costo_unitario: 8.50,
-    costo_total: 42.50,
-    punto_venta: "Tienda Centro",
+    costoUnitario: 8.50,
+    costoTotal: 42.50,
+    puntoVenta: "Tienda Centro",
     responsable: "Juan Pérez",
     cliente: "Cliente VIP 001",
     motivo: "Degustación para cliente preferencial",
-    aprobado_por: "María González"
+    aprobadoPor: "María González"
   },
   {
     id: "M-1002",
@@ -25,13 +25,13 @@ let mockMovements = [
     tipo: "egreso",
     categoria: "promocion",
     cantidad: 2,
-    costo_unitario: 25.00,
-    costo_total: 50.00,
-    punto_venta: "Tienda Norte",
+    costoUnitario: 25.00,
+    costoTotal: 50.00,
+    puntoVenta: "Tienda Norte",
     responsable: "Ana López",
     cliente: "N/A",
     motivo: "Promoción de lanzamiento",
-    aprobado_por: "Carlos Ruiz"
+    aprobadoPor: "Carlos Ruiz"
   },
   {
     id: "M-1003",
@@ -40,13 +40,13 @@ let mockMovements = [
     tipo: "egreso",
     categoria: "merma",
     cantidad: 12,
-    costo_unitario: 1.80,
-    costo_total: 21.60,
-    punto_venta: "Tienda Sur",
+    costoUnitario: 1.80,
+    costoTotal: 21.60,
+    puntoVenta: "Tienda Sur",
     responsable: "Luis Martínez",
     cliente: "N/A",
     motivo: "Caducidad",
-    aprobado_por: "Sistema"
+    aprobadoPor: "Sistema"
   },
   {
     id: "M-1004",
@@ -55,13 +55,13 @@ let mockMovements = [
     tipo: "egreso",
     categoria: "devolucion",
     cantidad: 1,
-    costo_unitario: 30.00,
-    costo_total: 30.00,
-    punto_venta: "Tienda Centro",
+    costoUnitario: 30.00,
+    costoTotal: 30.00,
+    puntoVenta: "Tienda Centro",
     responsable: "Pedro Sánchez",
     cliente: "Cliente Regular 045",
     motivo: "Producto defectuoso",
-    aprobado_por: "María González"
+    aprobadoPor: "María González"
   },
   {
     id: "M-1005",
@@ -70,13 +70,13 @@ let mockMovements = [
     tipo: "ingreso",
     categoria: "compra",
     cantidad: 50,
-    costo_unitario: 6.00,
-    costo_total: 300.00,
-    punto_venta: "Tienda Centro",
+    costoUnitario: 6.00,
+    costoTotal: 300.00,
+    puntoVenta: "Tienda Centro",
     responsable: "Sistema",
     cliente: "N/A",
     motivo: "Reabastecimiento",
-    aprobado_por: "N/A"
+    aprobadoPor: "N/A"
   }
 ];
 
@@ -97,7 +97,7 @@ Mock.onGet(new RegExp(`${baseUrl}/.+`)).reply(config => {
 Mock.onPost(baseUrl).reply(config => {
   const newMovement = JSON.parse(config.data);
   newMovement.id = `M-${nanoid(4)}`;
-  newMovement.costo_total = newMovement.cantidad * newMovement.costo_unitario;
+  newMovement.costoTotal = newMovement.cantidad * newMovement.costoUnitario;
   mockMovements.push(newMovement);
   return [201, newMovement];
 });
@@ -111,7 +111,7 @@ Mock.onPut(new RegExp(`${baseUrl}/.+`)).reply(config => {
   const updatedMovement = { 
     ...mockMovements[index], 
     ...updatedData,
-    costo_total: updatedData.cantidad * updatedData.costo_unitario
+    costoTotal: updatedData.cantidad * updatedData.costoUnitario
   };
   mockMovements[index] = updatedMovement;
   return [200, updatedMovement];

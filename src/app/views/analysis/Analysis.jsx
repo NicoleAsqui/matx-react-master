@@ -144,7 +144,7 @@ export default function AlertsDashboard() {
     
     // Filtrar por tienda
     const storeMatch = filterStore === "todas" || 
-      (alert.detalles.punto_venta && alert.detalles.punto_venta.includes(filterStore)) ||
+      (alert.detalles.puntoVenta && alert.detalles.puntoVenta.includes(filterStore)) ||
       (alert.detalles.cliente && alert.detalles.cliente.includes(filterStore));
     
     // Filtrar por rango de fecha
@@ -192,7 +192,7 @@ export default function AlertsDashboard() {
   // Contadores
   const unreadCount = alerts.filter(alert => !alert.leida).length;
   const stores = [...new Set(alerts.map(a => 
-    a.detalles.punto_venta || (a.detalles.cliente && a.detalles.cliente.includes("Tienda") ? a.detalles.cliente : null)
+    a.detalles.puntoVenta || (a.detalles.cliente && a.detalles.cliente.includes("Tienda") ? a.detalles.cliente : null)
   ).filter(Boolean))];
   
   // Tipos de alertas para filtro
@@ -469,19 +469,19 @@ export default function AlertsDashboard() {
                                   <strong>Lote:</strong> {alert.detalles.lote}
                                 </Typography>
                                 <Typography variant="body2">
-                                  <strong>Caduca:</strong> {new Date(alert.detalles.fecha_caducidad).toLocaleDateString()}
+                                  <strong>Caduca:</strong> {new Date(alert.detalles.fechaCaducidad).toLocaleDateString()}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12} md={6}>
                                 <Typography variant="body2">
-                                  <strong>Punto de venta:</strong> {alert.detalles.punto_venta}
+                                  <strong>Punto de venta:</strong> {alert.detalles.puntoVenta}
                                 </Typography>
                                 <Typography variant="body2">
-                                  <strong>Stock actual:</strong> {alert.detalles.stock_actual} unidades
+                                  <strong>Stock actual:</strong> {alert.detalles.stockActual} unidades
                                 </Typography>
-                                {alert.detalles.cliente_asignado && (
+                                {alert.detalles.clienteAsignado && (
                                   <Typography variant="body2">
-                                    <strong>Cliente asignado:</strong> {alert.detalles.cliente_asignado}
+                                    <strong>Cliente asignado:</strong> {alert.detalles.clienteAsignado}
                                   </Typography>
                                 )}
                               </Grid>
@@ -514,18 +514,18 @@ export default function AlertsDashboard() {
                                   <strong>Cliente:</strong> {alert.detalles.cliente}
                                 </Typography>
                                 <Typography variant="body2">
-                                  <strong>Producto afectado:</strong> {alert.detalles.producto_afectado}
+                                  <strong>Producto afectado:</strong> {alert.detalles.productoAfectado}
                                 </Typography>
                                 <Typography variant="body2">
-                                  <strong>Compra promedio:</strong> {alert.detalles.compra_promedio}
+                                  <strong>Compra promedio:</strong> {alert.detalles.compraPromedio}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12} md={6}>
                                 <Typography variant="body2">
-                                  <strong>Compra actual:</strong> {alert.detalles.compra_actual}
+                                  <strong>Compra actual:</strong> {alert.detalles.compraActual}
                                 </Typography>
                                 <Typography variant="body2">
-                                  <strong>Último pedido:</strong> {new Date(alert.detalles.ultimo_pedido).toLocaleDateString()}
+                                  <strong>Último pedido:</strong> {new Date(alert.detalles.ultimoPedido).toLocaleDateString()}
                                 </Typography>
                                 <Typography variant="body2">
                                   <strong>Tendencia:</strong> 

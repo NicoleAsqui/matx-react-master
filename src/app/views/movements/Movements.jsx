@@ -114,7 +114,7 @@ export default function MovementsTable() {
   const [filters, setFilters] = useState({
     tipos: [],
     categorias: [],
-    puntos_venta: [],
+    puntosVenta: [],
     responsables: [],
     fechaDesde: "",
     fechaHasta: ""
@@ -144,7 +144,7 @@ export default function MovementsTable() {
   // Datos únicos para filtros (calculados de los datos reales)
   const tiposUnicos = [...new Set(movements.map(item => item.tipo))];
   const categoriasUnicas = [...new Set(movements.map(item => item.categoria))];
-  const puntosVentaUnicos = [...new Set(movements.map(item => item.punto_venta))];
+  const puntosVentaUnicos = [...new Set(movements.map(item => item.puntoVenta))];
   const responsablesUnicos = [...new Set(movements.map(item => item.responsable))];
 
   // Manejar cambios en filtros (igual que antes)
@@ -171,8 +171,8 @@ export default function MovementsTable() {
     const matchesCategory = filters.categorias.length === 0 || 
       filters.categorias.includes(movement.categoria);
     
-    const matchesLocation = filters.puntos_venta.length === 0 || 
-      filters.puntos_venta.includes(movement.punto_venta);
+    const matchesLocation = filters.puntosVenta.length === 0 || 
+      filters.puntosVenta.includes(movement.puntoVenta);
     
     const matchesResponsible = filters.responsables.length === 0 || 
       filters.responsables.includes(movement.responsable);
@@ -195,7 +195,7 @@ export default function MovementsTable() {
     setFilters({
       tipos: [],
       categorias: [],
-      puntos_venta: [],
+      puntosVenta: [],
       responsables: [],
       fechaDesde: "",
       fechaHasta: ""
@@ -211,7 +211,7 @@ export default function MovementsTable() {
         if (!totals[movement.categoria]) {
           totals[movement.categoria] = 0;
         }
-        totals[movement.categoria] += movement.costo_total;
+        totals[movement.categoria] += movement.costoTotal;
       }
     });
     
@@ -370,12 +370,12 @@ export default function MovementsTable() {
                     filters.categorias.filter(c => c !== cat))}
                 />
               ))}
-              {filters.puntos_venta.map(punto => (
+              {filters.puntosVenta.map(punto => (
                 <FilterChip
                   key={punto}
                   label={`Punto: ${punto}`}
-                  onDelete={() => handleFilterChange('puntos_venta', 
-                    filters.puntos_venta.filter(p => p !== punto))}
+                  onDelete={() => handleFilterChange('puntosVenta', 
+                    filters.puntosVenta.filter(p => p !== punto))}
                 />
               ))}
               {filters.responsables.map(resp => (
@@ -436,7 +436,7 @@ export default function MovementsTable() {
                           </TableCell>
                           <TableCell align="center">{movement.cantidad}</TableCell>
                           <TableCell align="center">
-                            ${Number(movement.costo_unitario).toFixed(2)}
+                            ${Number(movement.costoUnitario).toFixed(2)}
                           </TableCell>
                           <TableCell align="center">
                             <Typography 
@@ -444,11 +444,11 @@ export default function MovementsTable() {
                               color={movement.tipo === "egreso" ? "error.main" : "success.main"}
                               fontWeight="500"
                             >
-                              ${Number(movement.costo_total).toFixed(2)}
+                              ${Number(movement.costoTotal).toFixed(2)}
                             </Typography>
                           </TableCell>
                           <TableCell align="center">
-                            {movement.punto_venta}
+                            {movement.puntoVenta}
                           </TableCell>
                           <TableCell align="center">
                             {movement.responsable}
@@ -565,8 +565,8 @@ export default function MovementsTable() {
               label="Puntos de Venta"
               SelectProps={{
                 multiple: true,
-                value: filters.puntos_venta,
-                onChange: (e) => handleFilterChange('puntos_venta', e.target.value),
+                value: filters.puntosVenta,
+                onChange: (e) => handleFilterChange('puntosVenta', e.target.value),
                 renderValue: (selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -578,7 +578,7 @@ export default function MovementsTable() {
             >
               {puntosVentaUnicos.map(punto => (
                 <MenuItem key={punto} value={punto}>
-                  <Checkbox checked={filters.puntos_venta.includes(punto)} />
+                  <Checkbox checked={filters.puntosVenta.includes(punto)} />
                   {punto}
                 </MenuItem>
               ))}

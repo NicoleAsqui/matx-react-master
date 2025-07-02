@@ -26,7 +26,7 @@ const AlertDetails = ({ alert, onClose }) => {
             <strong>Producto:</strong> {alert.detalles.producto}
           </Typography>
           <Typography variant="body2">
-            <strong>Tienda:</strong> {alert.detalles.punto_venta}
+            <strong>Tienda:</strong> {alert.detalles.puntoVenta}
           </Typography>
           {alert.tipo === "caducidad" && (
             <Fragment>
@@ -34,23 +34,23 @@ const AlertDetails = ({ alert, onClose }) => {
                 <strong>Lote:</strong> {alert.detalles.lote}
               </Typography>
               <Typography variant="body2">
-                <strong>Caduca:</strong> {new Date(alert.detalles.fecha_caducidad).toLocaleDateString()}
+                <strong>Caduca:</strong> {new Date(alert.detalles.fechaCaducidad).toLocaleDateString()}
               </Typography>
               <Typography variant="body2">
-                <strong>Stock actual:</strong> {alert.detalles.stock_actual} unidades
+                <strong>Stock actual:</strong> {alert.detalles.stockActual} unidades
               </Typography>
               <Typography variant="body2">
-                <strong>Cliente asignado:</strong> {alert.detalles.cliente_asignado}
+                <strong>Cliente asignado:</strong> {alert.detalles.clienteAsignado}
               </Typography>
             </Fragment>
           )}
           {alert.tipo === "stock" && (
             <Fragment>
               <Typography variant="body2">
-                <strong>Stock actual:</strong> {alert.detalles.stock_actual} unidades
+                <strong>Stock actual:</strong> {alert.detalles.stockActual} unidades
               </Typography>
               <Typography variant="body2">
-                <strong>Stock mínimo:</strong> {alert.detalles.stock_minimo} unidades
+                <strong>Stock mínimo:</strong> {alert.detalles.stockMinimo} unidades
               </Typography>
               <Typography variant="body2">
                 <strong>Proveedor:</strong> {alert.detalles.proveedor}

@@ -49,10 +49,10 @@ const AlertList = ({
                   <Box display="flex" alignItems="center">
                     <SeverityBadge severity={alert.severidad}>
                       {alert.tipo === "caducidad" 
-                        ? alert.detalles.dias_restantes <= 0 
+                        ? alert.detalles.diasRestantes <= 0 
                           ? "VENCIDO" 
-                          : `${alert.detalles.dias_restantes} DÍAS`
-                        : `-${alert.detalles.deficit_stock} UNIDADES`}
+                          : `${alert.detalles.diasRestantes} DÍAS`
+                        : `-${alert.detalles.deficitStock} UNIDADES`}
                     </SeverityBadge>
                     <Typography variant="subtitle1" component="span">
                       {alert.titulo}
@@ -63,12 +63,12 @@ const AlertList = ({
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography variant="body2" color="text.secondary">
                       {alert.tipo === "caducidad" 
-                        ? `Caduca: ${new Date(alert.detalles.fecha_caducidad).toLocaleDateString()}` 
-                        : `Stock actual: ${alert.detalles.stock_actual}/${alert.detalles.stock_minimo}`}
+                        ? `Caduca: ${new Date(alert.detalles.fechaCaducidad).toLocaleDateString()}` 
+                        : `Stock actual: ${alert.detalles.stockActual}/${alert.detalles.stockMinimo}`}
                     </Typography>
                     <Box component="span" mx={1}>•</Box>
                     <Typography variant="body2" color="text.secondary">
-                      {alert.detalles.punto_venta}
+                      {alert.detalles.puntoVenta}
                     </Typography>
                   </Box>
                 }

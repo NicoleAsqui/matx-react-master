@@ -43,17 +43,17 @@ const generateAlerts = () => {
       leida: Math.random() > 0.7,
       detalles: {
         producto: product,
-        punto_venta: store,
+        puntoVenta: store,
         ...(type === "caducidad" ? {
           lote: `LT-${Math.floor(1000 + Math.random() * 9000)}`,
-          fecha_caducidad: expiryDate.toISOString(),
-          dias_restantes: daysUntilExpiry,
-          stock_actual: Math.floor(5 + Math.random() * 20),
-          cliente_asignado: `Cliente ${Math.floor(1 + Math.random() * 100)}`
+          fechaCaducidad: expiryDate.toISOString(),
+          diasRestantes: daysUntilExpiry,
+          stockActual: Math.floor(5 + Math.random() * 20),
+          clienteAsignado: `Cliente ${Math.floor(1 + Math.random() * 100)}`
         } : {
-          stock_actual: Math.floor(Math.random() * 10),
-          stock_minimo: 15,
-          deficit_stock: 15 - Math.floor(Math.random() * 10),
+          stockActual: Math.floor(Math.random() * 10),
+          stockMinimo: 15,
+          deficitStock: 15 - Math.floor(Math.random() * 10),
           proveedor: `Proveedor ${Math.floor(1 + Math.random() * 5)}`
         })
       }

@@ -29,8 +29,8 @@ const EditMovements = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const total = formData.cantidad * formData.costo_unitario;
-    const dataToSend = { ...formData, costo_total: total };
+    const total = formData.cantidad * formData.costoUnitario;
+    const dataToSend = { ...formData, costoTotal: total };
     try {
       await movementsService.update(id, dataToSend);
       navigate("/movements");
@@ -72,10 +72,10 @@ const EditMovements = () => {
               <TextField fullWidth label="Cantidad" name="cantidad" type="number" value={formData.cantidad} onChange={handleChange} required />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label="Costo Unitario" name="costo_unitario" type="number" value={formData.costo_unitario} onChange={handleChange} required />
+              <TextField fullWidth label="Costo Unitario" name="costoUnitario" type="number" value={formData.costoUnitario} onChange={handleChange} required />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label="Punto de Venta" name="punto_venta" value={formData.punto_venta} onChange={handleChange} required />
+              <TextField fullWidth label="Punto de Venta" name="puntoVenta" value={formData.puntoVenta} onChange={handleChange} required />
             </Grid>
             <Grid item xs={6}>
               <TextField fullWidth label="Responsable" name="responsable" value={formData.responsable} onChange={handleChange} />
@@ -87,7 +87,7 @@ const EditMovements = () => {
               <TextField fullWidth label="Motivo" name="motivo" value={formData.motivo} onChange={handleChange} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label="Aprobado Por" name="aprobado_por" value={formData.aprobado_por} onChange={handleChange} />
+              <TextField fullWidth label="Aprobado Por" name="aprobadoPor" value={formData.aprobadoPor} onChange={handleChange} />
             </Grid>
           </Grid>
 

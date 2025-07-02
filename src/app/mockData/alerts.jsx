@@ -12,10 +12,10 @@ export const alertData = [
     detalles: {
       producto: "Vino Tinto Reserva",
       lote: "VT-2024-001",
-      fecha_caducidad: "2025-06-12",
-      punto_venta: "Metrópolis",
-      stock_actual: 15,
-      cliente_asignado: "Cliente Premium 001"
+      fechaCaducidad: "2025-06-12",
+      puntoVenta: "Metrópolis",
+      stockActual: 15,
+      clienteAsignado: "Cliente Premium 001"
     },
     leida: false
   },
@@ -28,9 +28,9 @@ export const alertData = [
     descripcion: "El producto Whisky 12 años está a 10% de su stock normal",
     detalles: {
       producto: "Whisky 12 años",
-      stock_actual: 5,
-      stock_minimo: 50,
-      punto_venta: "Metrópolis",
+      stockActual: 5,
+      stockMinimo: 50,
+      puntoVenta: "Metrópolis",
       proveedor: "Distribuidor Licores SA"
     },
     leida: false
@@ -45,10 +45,10 @@ export const alertData = [
     detalles: {
       producto: "Vino Tinto Reserva",
       lote: "VT-2024-001",
-      fecha_caducidad: "2025-06-12",
-      punto_venta: "Metrópolis",
-      stock_actual: 15,
-      cliente_asignado: "Cliente Premium 001"
+      fechaCaducidad: "2025-06-12",
+      puntoVenta: "Metrópolis",
+      stockActual: 15,
+      clienteAsignado: "Cliente Premium 001"
     },
     leida: false
   },
@@ -61,9 +61,9 @@ export const alertData = [
     descripcion: "El producto Whisky 12 años está a 10% de su stock normal",
     detalles: {
       producto: "Whisky 12 años",
-      stock_actual: 5,
-      stock_minimo: 50,
-      punto_venta: "Metrópolis",
+      stockActual: 5,
+      stockMinimo: 50,
+      puntoVenta: "Metrópolis",
       proveedor: "Distribuidor Licores SA"
     },
     leida: false

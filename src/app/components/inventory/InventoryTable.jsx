@@ -37,7 +37,7 @@ const InventoryTable = () => {
   const [filters, setFilters] = useState({
     categorias: [],
     marcas: [],
-    puntos_venta: [],
+    puntosVenta: [],
     conStockBajo: false,
   });
 
@@ -60,7 +60,7 @@ const InventoryTable = () => {
   // Generar opciones únicas para filtros a partir del inventario
   const categorias = [...new Set(inventory.map(item => item.categoria))];
   const marcas = [...new Set(inventory.map(item => item.marca))];
-  const puntos_venta = [...new Set(inventory.map(item => item.punto_venta))];
+  const puntosVenta = [...new Set(inventory.map(item => item.puntoVenta))];
 
   // Filtrar datos según filtros y búsqueda
   const filteredData = inventory.filter(product => {
@@ -75,11 +75,11 @@ const InventoryTable = () => {
     const matchesBrand = filters.marcas.length === 0 || 
       filters.marcas.includes(product.marca);
     
-    const matchesLocation = filters.puntos_venta.length === 0 || 
-      filters.puntos_venta.includes(product.punto_venta);
+    const matchesLocation = filters.puntosVenta.length === 0 || 
+      filters.puntosVenta.includes(product.puntoVenta);
     
     const matchesLowStock = !filters.conStockBajo || 
-      product.stock_total <= product.stock_minimo;
+      product.stockTotal <= product.stockMinimo;
     
     return matchesSearch && matchesCategory && matchesBrand && matchesLocation && matchesLowStock;
   });
@@ -150,11 +150,11 @@ const InventoryTable = () => {
             onFilterChange={setFilters}
             searchText={searchText}
             onSearchChange={setSearchText}
-            filterOptions={{ categorias, marcas, puntos_venta }}
+            filterOptions={{ categorias, marcas, puntosVenta }}
             onClearFilters={() => setFilters({
                 categorias: [],
                 marcas: [],
-                puntos_venta: [],
+                puntosVenta: [],
                 conStockBajo: false
             })}
             />

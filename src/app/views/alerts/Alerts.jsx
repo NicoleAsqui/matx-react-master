@@ -154,7 +154,7 @@ const DistributionDashboard = () => {
   // Filtrar alertas
   const filteredAlerts = alerts.filter(alert => {
     const typeMatch = filterType === "todas" || alert.tipo === filterType;
-    const storeMatch = filterStore === "todas" || alert.detalles.punto_venta === filterStore;
+    const storeMatch = filterStore === "todas" || alert.detalles.puntoVenta === filterStore;
     const dateMatch = filterByDate(alert.timestamp);
     
     return typeMatch && storeMatch && dateMatch;
@@ -172,7 +172,7 @@ const DistributionDashboard = () => {
   const filteredProductData = alerts
     .filter(alert => 
       (filterType === "todas" || alert.tipo === filterType) &&
-      (filterStore === "todas" || alert.detalles.punto_venta === filterStore) &&
+      (filterStore === "todas" || alert.detalles.puntoVenta === filterStore) &&
       filterByDate(alert.timestamp)
     )
     .reduce((acc, alert) => {
@@ -350,23 +350,23 @@ const DistributionDashboard = () => {
                       <BarChart
                         data={filteredAlerts
                           .filter(alert => alert.tipo === "caducidad" && 
-                                 (filterStore === "todas" || alert.detalles.punto_venta === filterStore))
+                                 (filterStore === "todas" || alert.detalles.puntoVenta === filterStore))
                           .reduce((acc, alert) => {
                             const found = acc.find(item => item.producto === alert.detalles.producto);
                             if (found) {
-                              found.stock_actual += alert.detalles.stock_actual;
+                              found.stockActual += alert.detalles.stockActual;
                             } else {
                                 const diasRestantes = Math.floor(
-                                  (new Date(alert.detalles.fecha_caducidad) - new Date()) / (1000 * 60 * 60 * 24));
+                                  (new Date(alert.detalles.fechaCaducidad) - new Date()) / (1000 * 60 * 60 * 24));
                                 acc.push({
                                   producto: alert.detalles.producto,
-                                  stock_actual: alert.detalles.stock_actual,
-                                  dias_restantes: diasRestantes
+                                  stockActual: alert.detalles.stockActual,
+                                  diasRestantes: diasRestantes
                                 });
                               }
                             return acc;
                           }, [])
-                          .sort((a, b) => b.stock_actual - a.stock_actual)
+                          .sort((a, b) => b.stockActual - a.stockActual)
                           .slice(0, 5)}
                         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                       >
@@ -376,12 +376,12 @@ const DistributionDashboard = () => {
                         <Tooltip 
                           formatter={(value, name, props) => [
                             `${value} unidades`, 
-                            `${props.payload.dias_restantes} días restantes`
+                            `${props.payload.diasRestantes} días restantes`
                           ]}
                         />
                         <Legend />
                         <Bar 
-                          dataKey="stock_actual" 
+                          dataKey="stockActual" 
                           fill="#ef5350" 
                           name="Stock por caducar" 
                         />
@@ -410,12 +410,12 @@ const DistributionDashboard = () => {
                       <BarChart
                         data={filteredAlerts
                           .filter(alert => alert.tipo === "stock" && 
-                                 (filterStore === "todas" || alert.detalles.punto_venta === filterStore))
+                                 (filterStore === "todas" || alert.detalles.puntoVenta === filterStore))
                           .map(alert => ({
                             producto: alert.detalles.producto,
-                            stock_actual: alert.detalles.stock_actual,
-                            stock_minimo: alert.detalles.stock_minimo,
-                            deficit: alert.detalles.stock_minimo - alert.detalles.stock_actual
+                            stockActual: alert.detalles.stockActual,
+                            stockMinimo: alert.detalles.stockMinimo,
+                            deficit: alert.detalles.stockMinimo - alert.detalles.stockActual
                           }))
                           .sort((a, b) => b.deficit - a.deficit)
                           .slice(0, 5)}
@@ -427,19 +427,19 @@ const DistributionDashboard = () => {
                         <Tooltip 
                           formatter={(value, name, props) => [
                             `${value} unidades`, 
-                            name === "stock_actual" ? 
-                              `${Math.round((props.payload.stock_actual / props.payload.stock_minimo) * 100)}% del mínimo` :
+                            name === "stockActual" ? 
+                              `${Math.round((props.payload.stockActual / props.payload.stockMinimo) * 100)}% del mínimo` :
                               `Déficit: ${props.payload.deficit} unidades`
                           ]}
                         />
                         <Legend />
                         <Bar 
-                          dataKey="stock_actual" 
+                          dataKey="stockActual" 
                           fill="#ffa726" 
                           name="Stock disponible" 
                         />
                         <Bar 
-                          dataKey="stock_minimo" 
+                          dataKey="stockMinimo" 
                           fill="#e0e0e0" 
                           name="Stock mínimo" 
                         />

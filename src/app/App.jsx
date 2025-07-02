@@ -8,7 +8,7 @@ import { AuthProvider } from "./contexts/FirebaseAuthContext";
 // ROUTES
 import routes from "./routes";
 // FAKE SERVER
-import "../__api__";
+//import "../__api__";
 
 export default function App() {
   const content = useRoutes(routes);
